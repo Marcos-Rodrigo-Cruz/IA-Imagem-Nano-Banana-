@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Imagens Profissional</title>
+    <link rel="stylesheet" href="https://techideia.net/genapp/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1 class="panel-title">🎨 AI Image Studio</h1>
+            <p class="panel-subtitle">Gerador profissional de imagens</p>
+
+            <div class="prompt-section">
+                <div class="section-title">💭 Describe sua ideia</div>
+                <textarea id="prompt" class="prompt-input" placeholder="Descreva a imagem que você deseja criar..."></textarea>
+            </div>
+
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="create">Criar</button>
+                <button class="mode-btn" data-mode="edit">Editar</button>
+            </div>
+
+            <div id="createFunctions" class="functions-section">
+                <div class="functions-grid">
+                    <div class="function-card active" data-function="free">
+                        <div>✨</div>
+                        <div>Prompt</div>
+                    </div>
+                    <div class="function-card" data-function="sticker">
+                        <div>🏷️</div>
+                        <div>Adesivos</div>
+                    </div>
+                    <div class="function-card" data-function="text">
+                        <div>📝</div>
+                        <div>Logo</div>
+                    </div>
+                    <div class="function-card" data-function="comic">
+                        <div>💭</div>
+                        <div>HQ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="editFunctions" class="functions-section" style="display: none;">
+                <div class="functions-grid">
+                    <div class="function-card active" data-function="add-remove">
+                        <div>➕</div>
+                        <div>Adicionar</div>
+                    </div>
+                    <div class="function-card" data-function="retouch">
+                        <div>🎯</div>
+                        <div>Retoque</div>
+                    </div>
+                    <div class="function-card" data-function="style">
+                        <div>🎨</div>
+                        <div>Estilo</div>
+                    </div>
+                    <div class="function-card" data-function="compose" data-requires-two="true">
+                        <div>🖼️</div>
+                        <div>Unir</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="twoImagesSection" class="functions-section" style="display: none;">
+                <div class="section-title">📸 Duas Imagens Necessárias</div>
+                <div class="upload-area-dual" onclick="document.getElementById('imageUpload1').click()">
+                    <div>📁</div>
+                    <div>Primeira Imagem</div>
+                    <div class="upload-text">Clique para selecionar</div>
+                    <input type="file" id="imageUpload1" accept="image/*" onchange="handleImageUpload(this, 'imagePreview1', 1)">
+                    <img id="imagePreview1" class="image-preview">
+                </div>
+                <div class="upload-area-dual" onclick="document.getElementById('imageUpload2').click()">
+                    <div>📁</div>
+                    <div>Segunda Imagem</div>
+                    <div class="upload-text">Clique para selecionar</div>
+                    <input type="file" id="imageUpload2" accept="image/*" onchange="handleImageUpload(this, 'imagePreview2', 2)">
+                    <img id="imagePreview2" class="image-preview">
+                </div>
+                <button class="back-btn" onclick="backToEditFunctions()">← Voltar para Edição</button>
+            </div>
+
+            <div class="dynamic-content">
+                 <div id="uploadArea" class="upload-area">
+                    <div>📁</div>
+                    <div>Clique ou arraste uma imagem</div>
+                    <div class="upload-text">PNG, JPG, WebP (máx. 10MB)</div>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(this, 'imagePreview')">
+                    <img id="imagePreview" class="image-preview">
+                </div>
+            </div>
+
+            <button id="generateBtn" class="generate-btn" onclick="generateImage()">
+                <div class="spinner"></div>
+                <span class="btn-text">🚀 Gerar Imagem</span>
+            </button>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div id="resultPlaceholder" class="result-placeholder">
+                <div class="result-placeholder-icon">🎨</div>
+                <div>Sua obra de arte aparecerá aqui</div>
+            </div>
+
+            <div id="loadingContainer" class="loading-container">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Gerando sua imagem...</div>
+            </div>
+
+            <div id="imageContainer" class="image-container">
+                <img id="generatedImage" class="generated-image">
+                <div class="image-actions">
+                    <button class="action-btn" onclick="editCurrentImage()" title="Editar">✏️</button>
+                    <button class="action-btn" onclick="downloadImage()" title="Download">💾</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Modal -->
+    <div id="mobileModal" class="mobile-modal">
+        <div class="modal-content">
+            <img id="modalImage" class="modal-image">
+            <div class="modal-actions">
+                <button class="modal-btn edit" onclick="editFromModal()">✏️ Editar</button>
+                <button class="modal-btn download" onclick="downloadFromModal()">💾 Salvar</button>
+                <button class="modal-btn new" onclick="newImageFromModal()">✨ Nova Imagem</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // To build your AI Image Studio, please provide your OpenRouter API key (format: sk-or-v1-xxxxx).
+        // Replace the placeholder below with your actual key.
+        const OPENROUTER_API_KEY = "sk-or-v1-xxxxx";
+    </script>
+    <script src="https://techideia.net/genapp/script.js"></script>
+</body>
+</html>
