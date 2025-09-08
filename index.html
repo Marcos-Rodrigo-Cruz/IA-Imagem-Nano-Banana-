@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Imagens Profissional</title>
     <link rel="stylesheet" href="https://techideia.net/genapp/style.css">
+    <style>
+        #aspectRatioSection .function-card {
+            padding: 8px;
+            gap: 4px;
+        }
+        #aspectRatioSection .function-card div:first-child {
+            font-size: 1.5rem;
+        }
+        #aspectRatioSection .function-card div:last-child {
+            font-size: 0.75rem;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.17.0"
+  }
+}
+</script>
 </head>
 <body>
     <div class="container">
@@ -44,6 +63,32 @@
                 </div>
             </div>
 
+            <div id="aspectRatioSection" class="functions-section">
+                <div class="section-title">📐 Proporção</div>
+                <div class="functions-grid">
+                    <div class="function-card active" data-ratio="1:1">
+                        <div>⏹️</div>
+                        <div>1:1</div>
+                    </div>
+                    <div class="function-card" data-ratio="16:9">
+                        <div>🖼️</div>
+                        <div>16:9</div>
+                    </div>
+                    <div class="function-card" data-ratio="9:16">
+                        <div>📱</div>
+                        <div>9:16</div>
+                    </div>
+                    <div class="function-card" data-ratio="4:3">
+                        <div>🏞️</div>
+                        <div>4:3</div>
+                    </div>
+                    <div class="function-card" data-ratio="3:4">
+                        <div>📖</div>
+                        <div>3:4</div>
+                    </div>
+                </div>
+            </div>
+
             <div id="editFunctions" class="functions-section" style="display: none;">
                 <div class="functions-grid">
                     <div class="function-card active" data-function="add-remove">
@@ -67,21 +112,21 @@
 
             <div id="twoImagesSection" class="functions-section" style="display: none;">
                 <div class="section-title">📸 Duas Imagens Necessárias</div>
-                <div class="upload-area-dual" onclick="document.getElementById('imageUpload1').click()">
+                <div id="uploadAreaDual1" class="upload-area-dual">
                     <div>📁</div>
                     <div>Primeira Imagem</div>
                     <div class="upload-text">Clique para selecionar</div>
-                    <input type="file" id="imageUpload1" accept="image/*" onchange="handleImageUpload(this, 'imagePreview1', 1)">
+                    <input type="file" id="imageUpload1" accept="image/*" style="display:none;">
                     <img id="imagePreview1" class="image-preview">
                 </div>
-                <div class="upload-area-dual" onclick="document.getElementById('imageUpload2').click()">
+                <div id="uploadAreaDual2" class="upload-area-dual">
                     <div>📁</div>
                     <div>Segunda Imagem</div>
                     <div class="upload-text">Clique para selecionar</div>
-                    <input type="file" id="imageUpload2" accept="image/*" onchange="handleImageUpload(this, 'imagePreview2', 2)">
+                    <input type="file" id="imageUpload2" accept="image/*" style="display:none;">
                     <img id="imagePreview2" class="image-preview">
                 </div>
-                <button class="back-btn" onclick="backToEditFunctions()">← Voltar para Edição</button>
+                <button id="backBtn" class="back-btn">← Voltar para Edição</button>
             </div>
 
             <div class="dynamic-content">
@@ -89,12 +134,12 @@
                     <div>📁</div>
                     <div>Clique ou arraste uma imagem</div>
                     <div class="upload-text">PNG, JPG, WebP (máx. 10MB)</div>
-                    <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(this, 'imagePreview')">
+                    <input type="file" id="imageUpload" accept="image/*" style="display:none;">
                     <img id="imagePreview" class="image-preview">
                 </div>
             </div>
 
-            <button id="generateBtn" class="generate-btn" onclick="generateImage()">
+            <button id="generateBtn" class="generate-btn">
                 <div class="spinner"></div>
                 <span class="btn-text">🚀 Gerar Imagem</span>
             </button>
@@ -115,8 +160,8 @@
             <div id="imageContainer" class="image-container">
                 <img id="generatedImage" class="generated-image">
                 <div class="image-actions">
-                    <button class="action-btn" onclick="editCurrentImage()" title="Editar">✏️</button>
-                    <button class="action-btn" onclick="downloadImage()" title="Download">💾</button>
+                    <button id="editCurrentBtn" class="action-btn" title="Editar">✏️</button>
+                    <button id="downloadBtn" class="action-btn" title="Download">💾</button>
                 </div>
             </div>
         </div>
@@ -127,18 +172,11 @@
         <div class="modal-content">
             <img id="modalImage" class="modal-image">
             <div class="modal-actions">
-                <button class="modal-btn edit" onclick="editFromModal()">✏️ Editar</button>
-                <button class="modal-btn download" onclick="downloadFromModal()">💾 Salvar</button>
-                <button class="modal-btn new" onclick="newImageFromModal()">✨ Nova Imagem</button>
+                <button id="modalEditBtn" class="modal-btn edit">✏️ Editar</button>
+                <button id="modalDownloadBtn" class="modal-btn download">💾 Salvar</button>
+                <button id="modalNewImageBtn" class="modal-btn new">✨ Nova Imagem</button>
             </div>
         </div>
     </div>
-
-    <script>
-        // To build your AI Image Studio, please provide your OpenRouter API key (format: sk-or-v1-xxxxx).
-        // Replace the placeholder below with your actual key.
-        const OPENROUTER_API_KEY = "sk-or-v1-xxxxx";
-    </script>
-    <script src="https://techideia.net/genapp/script.js"></script>
 </body>
 </html>
